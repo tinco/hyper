@@ -429,7 +429,7 @@ impl<S, B> Server<S, B>
         //
         // When we get a shutdown signal (`Ok`) then we drop the TCP listener to
         // stop accepting incoming connections.
-        match core.borrow_mut().run(shutdown_signal.select(srv)) {
+        match core.borrow_mut(/** THIS DOES NOT WORK, now it stays borrowed mutable forever **/).run(shutdown_signal.select(srv)) {
             Ok(((), _incoming)) => {}
             Err((e, _other)) => return Err(e.into()),
         }
